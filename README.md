@@ -1,7 +1,7 @@
 # Laravel 5 JSend Transformer Package
 
 
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/nilportugues/laravel5-hal-json-transformer/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/nilportugues/laravel5-hal-json-transformer/?branch=master) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/93029d8e-7052-42e0-a7db-fabbd2e566d5/mini.png?)](https://insight.sensiolabs.com/projects/93029d8e-7052-42e0-a7db-fabbd2e566d5) 
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/nilportugues/laravel5-jsend-transformer/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/nilportugues/laravel5-jsend-transformer/?branch=master) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/aa4fca95-5720-4d07-b35f-3d26e9f0e9e4/mini.png?)](https://insight.sensiolabs.com/projects/aa4fca95-5720-4d07-b35f-3d26e9f0e9e4) 
 [![Latest Stable Version](https://poser.pugx.org/nilportugues/laravel5-jsend/v/stable?)](https://packagist.org/packages/nilportugues/laravel5-jsend) 
 [![Total Downloads](https://poser.pugx.org/nilportugues/laravel5-jsend/downloads?)](https://packagist.org/packages/nilportugues/laravel5-jsend) 
 [![License](https://poser.pugx.org/nilportugues/laravel5-jsend/license?)](https://packagist.org/packages/nilportugues/laravel5-jsend) 
