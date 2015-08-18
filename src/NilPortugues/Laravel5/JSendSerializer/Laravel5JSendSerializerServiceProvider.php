@@ -14,7 +14,7 @@ use Illuminate\Support\ServiceProvider;
 
 class Laravel5JSendSerializerServiceProvider extends ServiceProvider
 {
-    const PATH = '/../../../config/JSend.php';
+    const PATH = '/../../../config/jsend.php';
 
     /**
      * Indicates if loading of the provider is deferred.
