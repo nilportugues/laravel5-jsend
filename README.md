@@ -239,7 +239,40 @@ Content-type: application/json; charset=utf-8
 ```
 
 ```json
-
+{
+    "status": "success",
+    "data": {
+        "post_id": 9,
+        "title": "Hello World",
+        "content": "Your first post",
+        "author": {
+            "user_id": 1,
+            "name": "Post Author"
+        },
+        "comments": [
+            {
+                "comment_id": 1000,
+                "dates": {
+                    "created_at": "2015-07-18T12:13:00+00:00",
+                    "accepted_at": "2015-07-19T00:00:00+00:00"
+                },
+                "comment": "Have no fear, sers, your king is safe.",
+                "user": {
+                    "user_id": 2,
+                    "name": "Barristan Selmy"
+                }
+            }
+        ]
+    },
+    "links": {
+        "self": {
+            "href": "http://example.com/post/9"
+        },
+        "next": {
+            "href": "http://example.com/post/10"
+        }
+    }
+}
 ```
 
 #### Response objects
