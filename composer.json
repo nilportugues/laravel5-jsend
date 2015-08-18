@@ -1,0 +1,27 @@
+{
+    "name": "nilportugues/laravel5-jsend",
+    "type": "library",
+    "description": "Laravel 5 JSend API Transformer Package",
+    "keywords": ["laravel", "laravel5", "lumen", "json", "api", "jsend", "serializer", "transformer", "psr7", "response"],
+    "homepage": "http://nilportugues.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nil Portugués Calderó",
+            "email": "contact@nilportugues.com",
+            "role": "Project Lead Developer"
+        }
+    ],
+    "require": {
+        "nilportugues/jsend": "~1.0",
+        "symfony/psr-http-message-bridge": "0.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "NilPortugues\\Laravel5\\JSendSerializer\\" : "src/NilPortugues/Laravel5/JSendSerializer/"
+        }
+    },
+    "config": {
+        "preferred-install": "dist"
+    }
+}
