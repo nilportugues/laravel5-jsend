@@ -17,22 +17,43 @@ $ composer require nilportugues/laravel5-jsend
 ```
 
 
+
+
 ## Laravel 5 / Lumen Configuration
 
 **Step 1: Add the Service Provider**
 
+**Laravel**
+
+Open up `config/app.php` and add the following line under `providers` array:
+
+```php
+'providers' => [
+
+    //...
+    \NilPortugues\Laravel5\JSendSerializer\Laravel5JSendSerializerServiceProvider::class,
+],
+```
+
+**Lumen**
+
 Open up `bootstrap/app.php`and add the following lines before the `return $app;` statement:
 
 ```php
-$app->register('NilPortugues\Laravel5\JSendSerializer\Laravel5JSendSerializerServiceProvider');
-$app['config']->set('jsend_mapping', include('jsend.php'));
+$app->register(\NilPortugues\Laravel5\JSendSerializer\Laravel5JSendSerializerServiceProvider::class);
+$app->configure('jsend');
 ```
+
+Also, enable Facades by uncommenting:
+
+```php
+$app->withFacades();
+```
+
 
 **Step 2: Add the mapping**
 
-Create a `jsend.php` file in `bootstrap/` directory. This file should return an array returning all the class mappings.
-
-An example as follows:
+Create a `jsend.php` file in `config/` directory. This file should return an array returning all the class mappings.
 
 
 **Step 3: Usage**
@@ -93,8 +114,8 @@ return [
             'postId',
         ],
         'urls' => [
-            'self' => route('get_post'),
-            'comments' => route('get_post_comments'),
+            'self' => 'get_post',//named route
+            'comments' => 'get_post_comments',//named route
         ],
     ],
     [
@@ -106,7 +127,7 @@ return [
             'postId',
         ],
         'urls' => [
-            'self' => 'self' => route('get_post'),
+            'self' => 'get_post',//named route
         ],
     ],
     [
@@ -118,9 +139,9 @@ return [
             'userId',
         ],
         'urls' => [
-            'self' => route('get_user'),
-            'friends' => route('get_user_friends'),
-            'comments' => route('get_user_comments'),
+            'self' => 'get_user',//named route
+            'friends' => 'get_user_friends',//named route
+            'comments' => 'get_user_comments',//named route
         ],
     ],
     [
@@ -132,9 +153,9 @@ return [
             'userId',
         ],
         'urls' => [
-            'self' => route('get_user'),
-            'friends' => route('get_user_friends'),
-            'comments' => route('get_user_comments'),
+            'self' => 'get_user',//named route
+            'friends' => 'get_user_friends',//named route
+            'comments' => 'get_user_comments',//named route
         ],
     ],
     [
@@ -146,7 +167,7 @@ return [
             'commentId',
         ],
         'urls' => [
-            'self' => route('get_comment'),
+            'self' => 'get_comment',//named route
         ],
     ],
     [
@@ -158,7 +179,7 @@ return [
             'commentId',
         ],
         'urls' => [
-            'self' => route('get_comment'),
+            'self' => 'get_comment', //named route
         ],
     ],
 ];
@@ -166,6 +187,24 @@ return [
 ```
 
 The named routes belong to the `app/Http/routes.php`. Here's a sample for the routes provided mapping:
+
+**Laravel**
+
+```php
+Route::get(
+  '/post/{postId}',
+  ['as' => 'get_post', 'uses' => 'PostController@getPostAction']
+);
+
+Route::get(
+  '/post/{postId}/comments',
+  ['as' => 'get_post_comments', 'uses' => 'CommentsController@getPostCommentsAction']
+);
+
+//...
+```
+
+**Lumen**
 
 ```php
 $app->get(
@@ -179,9 +218,9 @@ $app->get(
 );
 
 //...
-``` 
+```
 
-All of this set up allows you to easily use the `Serializer` service as follows:
+All of this set up allows you to easily use the `JSendSerializer` service as follows:
 
 ```php
 <?php
@@ -189,23 +228,29 @@ All of this set up allows you to easily use the `Serializer` service as follows:
 namespace App\Http\Controllers;
 
 use Acme\Domain\Dummy\PostRepository;
-use NilPortugues\Api\JSend\Http\Message\Response;
-use NilPortugues\Serializer\Serializer;
-use Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory;
+use NilPortugues\Laravel5\JSendSerializer\JSendSerializer;
+use NilPortugues\Laravel5\JSendSerializer\JSendResponseTrait;
 
 
 class PostController extends \Laravel\Lumen\Routing\Controller
 {
+    use JSendResponseTrait;
+
     /**
      * @var PostRepository
      */
     private $postRepository;
 
     /**
-     * @param PostRepository $postRepository
-     * @param Serializer $jSendSerializer
+     * @var JSendSerializer
      */
-    public function __construct(PostRepository $postRepository, Serializer $jSendSerializer)
+    private $serializer;
+
+    /**
+     * @param PostRepository $postRepository
+     * @param JSendSerializer $jSendSerializer
+     */
+    public function __construct(PostRepository $postRepository, JSendSerializer $jSendSerializer)
     {
         $this->postRepository = $postRepository;
         $this->serializer = $jSendSerializer;
@@ -225,7 +270,7 @@ class PostController extends \Laravel\Lumen\Routing\Controller
         $transformer->setSelfUrl(route('get_post', ['postId' => $postId]));
         $transformer->setNextUrl(route('get_post', ['postId' => $postId+1]));
 
-        return (new HttpFoundationFactory())->createResponse(new Response($this->serializer->serialize($post)));
+        return $this->response($this->serializer->serialize($post));
     }
 }
 ```
@@ -275,16 +320,15 @@ Content-type: application/json; charset=utf-8
 }
 ```
 
-#### Response objects
+#### Response objects (JSendResponseTrait)
 
-The following PSR-7 Response objects providing the right headers and HTTP status codes are available:
+The following `JSendResponseTrait` methods are provided to return the right headers and HTTP status codes are available:
 
-- `NilPortugues\Api\JSend\Http\Message\ErrorResponse($json)`
-- `NilPortugues\Api\JSend\Http\Message\FailResponse($json)`
-- `NilPortugues\Api\JSend\Http\Message\Response($json)`
-
-Due to the current lack of support for PSR-7 Requests and Responses in Laravel,  `symfony/psr-http-message-bridge` will bridge between the PHP standard and the Response object used by Laravel automatically, as seen in the Controller example code provided.
-
+```php
+    private function errorResponse($message, $code = 500, $data = null);
+    private function failResponse($json);
+    private function response($json);
+```    
 
 <br>
 ## Quality

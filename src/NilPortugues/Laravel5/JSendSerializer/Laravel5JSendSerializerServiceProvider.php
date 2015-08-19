@@ -10,7 +10,10 @@
  */
 namespace NilPortugues\Laravel5\JSendSerializer;
 
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\ServiceProvider;
+use NilPortugues\Api\JSend\JSendTransformer;
+use NilPortugues\Api\Mapping\Mapper;
 
 class Laravel5JSendSerializerServiceProvider extends ServiceProvider
 {
@@ -36,10 +39,42 @@ class Laravel5JSendSerializerServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__.self::PATH, 'jsend_mapping');
-        $this->app->singleton(\NilPortugues\Serializer\Serializer::class, function ($app) {
-            return JSendSerializer::instance($app['config']->get('jsend_mapping'));
-        });
+        $this->mergeConfigFrom(__DIR__.self::PATH, 'jsend');
+        $this->app->singleton(\NilPortugues\Laravel5\JSendSerializer\JSendSerializer::class, function ($app) {
+                $mapping = $app['config']->get('jsend');
+                $key = md5(json_encode($mapping));
+                $cachedMapping = Cache::get($key);
+                if(!empty($cachedMapping)) {
+                    return unserialize($cachedMapping);
+                }
+                self::parseNamedRoutes($mapping);
+                $serializer = new JSendSerializer(new JSendTransformer(new Mapper($mapping)));
+                Cache::put($key, serialize($serializer),60*60*24);
+                return $serializer;
+            });
+    }
+    /**
+     * @param array $mapping
+     *
+     * @return mixed
+     */
+    private static function parseNamedRoutes(array &$mapping)
+    {
+        foreach ($mapping as &$map) {
+            self::parseUrls($map);
+        }
+    }
+    
+    /**
+     * @param array $map
+     */
+    private static function parseUrls(array &$map)
+    {
+        if (!empty($map['urls'])) {
+            foreach ($map['urls'] as &$namedUrl) {
+                $namedUrl = urldecode(route($namedUrl));
+            }
+        }
     }
 
     /**
@@ -49,6 +84,6 @@ class Laravel5JSendSerializerServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['jsend_mapping'];
+        return ['jsend'];
     }
 }

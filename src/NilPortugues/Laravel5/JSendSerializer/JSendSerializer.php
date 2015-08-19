@@ -11,21 +11,18 @@
 namespace NilPortugues\Laravel5\JSendSerializer;
 
 use NilPortugues\Api\JSend\JSendTransformer;
-use NilPortugues\Api\Mapping\Mapper;
 use NilPortugues\Serializer\Serializer;
 
 /**
  * Class JSendSerializer.
  */
-class JSendSerializer
+class JSendSerializer extends Serializer
 {
     /**
-     * @param array $mapping
-     *
-     * @return Serializer
+     * @param JSendTransformer $jSendTransformer
      */
-    public static function instance(array $mapping)
+    public function __construct(JSendTransformer $jSendTransformer)
     {
-        return new Serializer(new JSendTransformer(new Mapper($mapping)));
+        parent::__construct($jSendTransformer);
     }
 }
