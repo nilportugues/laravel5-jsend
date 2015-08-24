@@ -1,5 +1,7 @@
 # Laravel 5 JSend Transformer Package
 
+[![Join the chat at https://gitter.im/nilportugues/laravel5-jsend-transformer](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/nilportugues/laravel5-jsend-transformer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/nilportugues/laravel5-jsend-transformer/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/nilportugues/laravel5-jsend-transformer/?branch=master) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/aa4fca95-5720-4d07-b35f-3d26e9f0e9e4/mini.png?)](https://insight.sensiolabs.com/projects/aa4fca95-5720-4d07-b35f-3d26e9f0e9e4) 
 [![Latest Stable Version](https://poser.pugx.org/nilportugues/laravel5-jsend/v/stable?)](https://packagist.org/packages/nilportugues/laravel5-jsend) 
