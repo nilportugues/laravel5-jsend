@@ -11,12 +11,12 @@
 namespace NilPortugues\Laravel5\JSendSerializer;
 
 use NilPortugues\Api\JSend\JSendTransformer;
-use NilPortugues\Serializer\Serializer;
+use NilPortugues\Serializer\DeepCopySerializer;
 
 /**
  * Class JSendSerializer.
  */
-class JSendSerializer extends Serializer
+class JSendSerializer extends DeepCopySerializer
 {
     /**
      * @param JSendTransformer $jSendTransformer
