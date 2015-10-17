@@ -13,7 +13,7 @@ namespace NilPortugues\Laravel5\JSendSerializer;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\ServiceProvider;
 use NilPortugues\Api\JSend\JSendTransformer;
-use NilPortugues\Api\Mapping\Mapper;
+use NilPortugues\Laravel5\JSendSerializer\Mapper\Mapper;
 
 class Laravel5JSendSerializerServiceProvider extends ServiceProvider
 {
