@@ -14,7 +14,8 @@
     ],
     "require": {
         "nilportugues/jsend": "~1.0",
-        "symfony/psr-http-message-bridge": "0.1"
+        "nilportugues/api-transformer": "1.0.6",
+        "symfony/psr-http-message-bridge": "~0.2"
     },
     "autoload": {
         "psr-4": {

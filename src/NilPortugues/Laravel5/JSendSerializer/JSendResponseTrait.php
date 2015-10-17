@@ -48,3 +48,4 @@ trait JSendResponseTrait
             ->createResponse(new \NilPortugues\Api\JSend\Http\Message\Response($json));
     }
 } 
+ 

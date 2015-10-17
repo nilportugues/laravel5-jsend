@@ -93,11 +93,11 @@ $post = new Post(
 );
 ```
 
-And a series of mappings, placed in `bootstrap/jsend.php`, that require to use *named routes* so we can use the `route()` helper function:
+And a series of mappings, placed in `config/jsend.php`, that require to use *named routes* so we can use the `route()` helper function:
 
 ```php
 <?php
-//bootstrap/jsend.php
+//config/jsend.php
 return [
     [
         'class' => 'Acme\Domain\Dummy\Post',
