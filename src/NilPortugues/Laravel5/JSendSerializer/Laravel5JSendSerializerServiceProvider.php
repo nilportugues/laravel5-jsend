@@ -13,7 +13,9 @@ namespace NilPortugues\Laravel5\JSendSerializer;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\ServiceProvider;
 use NilPortugues\Api\JSend\JSendTransformer;
+use NilPortugues\Api\Mapping\Mapping;
 use NilPortugues\Laravel5\JSendSerializer\Mapper\Mapper;
+use ReflectionClass;
 
 class Laravel5JSendSerializerServiceProvider extends ServiceProvider
 {
@@ -45,33 +47,56 @@ class Laravel5JSendSerializerServiceProvider extends ServiceProvider
                 $key = md5(json_encode($mapping));
 
                 return Cache::rememberForever($key, function () use ($mapping) {
-                    self::parseNamedRoutes($mapping);
-
-                    return new JSendSerializer(new JSendTransformer(new Mapper($mapping)));
+                    return new JSendSerializer(new JSendTransformer(self::parseRoutes(new Mapper($mapping))));
                 });
             });
     }
-    /**
-     * @param array $mapping
-     *
-     * @return mixed
-     */
-    private static function parseNamedRoutes(&$mapping)
-    {
-        foreach ($mapping as &$map) {
-            self::parseUrls($map);
-        }
-    }
+
 
     /**
-     * @param array $map
+     * @param Mapper $mapper
+     *
+     * @return Mapper
      */
-    private static function parseUrls(&$map)
+    private static function parseRoutes(Mapper $mapper)
     {
-        if (!empty($map['urls'])) {
-            foreach ($map['urls'] as &$namedUrl) {
-                $namedUrl = urldecode(route($namedUrl));
+        foreach ($mapper->getClassMap() as &$mapping) {
+
+            $mappingClass = new \ReflectionClass($mapping);
+
+            self::setUrlWithReflection($mapping, $mappingClass, 'resourceUrlPattern');
+            self::setUrlWithReflection($mapping, $mappingClass, 'selfUrl');
+            $mappingProperty = $mappingClass->getProperty('otherUrls');
+            $mappingProperty->setAccessible(true);
+
+            $otherUrls = (array) $mappingProperty->getValue($mapping);
+            if(!empty($otherUrls)) {
+                foreach ($otherUrls as &$url) {
+                    $url = urldecode(route($url));
+                }
             }
+            $mappingProperty->setValue($mapping, $otherUrls);
+
+        }
+
+        return $mapper;
+    }
+
+
+    /**
+     * @param Mapping         $mapping
+     * @param ReflectionClass $mappingClass
+     * @param string          $property
+     */
+    private static function setUrlWithReflection(Mapping $mapping, ReflectionClass $mappingClass, $property)
+    {
+        $mappingProperty = $mappingClass->getProperty($property);
+        $mappingProperty->setAccessible(true);
+        $value = $mappingProperty->getValue($mapping);
+
+        if(!empty($value)) {
+            $value = urldecode(route($value));
+            $mappingProperty->setValue($mapping, $value);
         }
     }
 
