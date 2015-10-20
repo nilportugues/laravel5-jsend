@@ -30,7 +30,6 @@ class JSendSerializer extends DeepCopySerializer
         parent::__construct($jSendTransformer);
     }
 
-
     /**
      * Extract the data from an object.
      *
@@ -51,14 +50,13 @@ class JSendSerializer extends DeepCopySerializer
 
         if (is_subclass_of($value, Model::class, true)) {
 
-
             $stdClass = (object) $value->getAttributes();
             $data =  $this->serializeData($stdClass);
             $data[self::CLASS_IDENTIFIER_KEY] = get_class($value);
 
             $methods = $this->getRelationshipMethodsAsPropertyName($value, get_class($value), new ReflectionClass($value));
 
-            if(!empty($methods)) {
+            if (!empty($methods)) {
                 $data = array_merge($data, $methods);
             }
 
@@ -67,7 +65,6 @@ class JSendSerializer extends DeepCopySerializer
 
         return parent::serializeObject($value);
     }
-
 
     /**
      * @param                 $value
@@ -98,9 +95,9 @@ class JSendSerializer extends DeepCopySerializer
                             if (false !== strpos(get_class($returned), 'Illuminate\Database\Eloquent\Relations')) {
 
                                 $items = [];
-                                foreach($returned->getResults() as $model) {
+                                foreach ($returned->getResults() as $model) {
 
-                                    if(is_object($model)) {
+                                    if (is_object($model)) {
                                         $stdClass = (object) $model->getAttributes();
                                         $data =  $this->serializeData($stdClass);
                                         $data[self::CLASS_IDENTIFIER_KEY] = get_class($model);
@@ -108,17 +105,16 @@ class JSendSerializer extends DeepCopySerializer
                                         $items[] = $data;
                                     }
                                 }
-                                if(!empty($items)) {
+                                if (!empty($items)) {
                                     $methods[$name] = [self::MAP_TYPE => 'array', self::SCALAR_VALUE => $items];
                                 }
 
                             }
                         }
-                    } catch(ErrorException $e) {}
+                    } catch (ErrorException $e) {}
                 }
             }
         }
-
 
         return $methods;
     }

@@ -43,14 +43,12 @@ class Laravel5JSendSerializerServiceProvider extends ServiceProvider
         $this->app->singleton(\NilPortugues\Laravel5\JSendSerializer\JSendSerializer::class, function ($app) {
                 $mapping = $app['config']->get('jsend');
                 $key = md5(json_encode($mapping));
-                $cachedMapping = Cache::get($key);
-                if(!empty($cachedMapping)) {
-                    return unserialize($cachedMapping);
-                }
-                self::parseNamedRoutes($mapping);
-                $serializer = new JSendSerializer(new JSendTransformer(new Mapper($mapping)));
-                Cache::put($key, serialize($serializer),60*60*24);
-                return $serializer;
+
+                return Cache::rememberForever($key, function () use ($mapping) {
+                    self::parseNamedRoutes($mapping);
+
+                    return new JSendSerializer(new JSendTransformer(new Mapper($mapping)));
+                });
             });
     }
     /**
@@ -58,17 +56,17 @@ class Laravel5JSendSerializerServiceProvider extends ServiceProvider
      *
      * @return mixed
      */
-    private static function parseNamedRoutes(array &$mapping)
+    private static function parseNamedRoutes(&$mapping)
     {
         foreach ($mapping as &$map) {
             self::parseUrls($map);
         }
     }
-    
+
     /**
      * @param array $map
      */
-    private static function parseUrls(array &$map)
+    private static function parseUrls(&$map)
     {
         if (!empty($map['urls'])) {
             foreach ($map['urls'] as &$namedUrl) {

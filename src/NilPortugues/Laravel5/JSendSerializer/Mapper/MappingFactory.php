@@ -54,7 +54,6 @@ class MappingFactory extends \NilPortugues\Api\Mapping\MappingFactory
         return parent::getClassProperties($className);
     }
 
-
     /**
      * @param                 $value
      * @param string          $className
@@ -86,7 +85,7 @@ class MappingFactory extends \NilPortugues\Api\Mapping\MappingFactory
                             }
 
                         }
-                    } catch(ErrorException $e) {}
+                    } catch (ErrorException $e) {}
                 }
             }
         }

@@ -15,22 +15,23 @@ use Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory;
 trait JSendResponseTrait
 {
     /**
-     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param  \Psr\Http\Message\ResponseInterface $response
      * @return \Psr\Http\Message\ResponseInterface
      */
     protected function addHeaders(\Psr\Http\Message\ResponseInterface $response)
     {
         return $response;
     }
-    
+
     /**
-     * @param string   $message
-     * @param int      $code
-     * @param null     $data
+     * @param string $message
+     * @param int    $code
+     * @param null   $data
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    private function errorResponse($message, $code = 500, $data = null) {
+    private function errorResponse($message, $code = 500, $data = null)
+    {
         return (new HttpFoundationFactory())
             ->createResponse($this->addHeaders(new \NilPortugues\Api\JSend\Http\Message\ErrorResponse($message, $code, $data)));
     }
@@ -56,5 +57,4 @@ trait JSendResponseTrait
         return (new HttpFoundationFactory())
             ->createResponse($this->addHeaders(new \NilPortugues\Api\JSend\Http\Message\Response($json)));
     }
-} 
- 
+}
