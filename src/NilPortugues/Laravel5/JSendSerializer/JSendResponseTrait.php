@@ -15,6 +15,15 @@ use Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory;
 trait JSendResponseTrait
 {
     /**
+     * @param \Psr\Http\Message\ResponseInterface $response
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    protected function addHeaders(\Psr\Http\Message\ResponseInterface $response)
+    {
+        return $response;
+    }
+    
+    /**
      * @param string   $message
      * @param int      $code
      * @param null     $data
@@ -23,7 +32,7 @@ trait JSendResponseTrait
      */
     private function errorResponse($message, $code = 500, $data = null) {
         return (new HttpFoundationFactory())
-            ->createResponse(new \NilPortugues\Api\JSend\Http\Message\ErrorResponse($message, $code, $data));
+            ->createResponse($this->addHeaders(new \NilPortugues\Api\JSend\Http\Message\ErrorResponse($message, $code, $data)));
     }
 
     /**
@@ -34,7 +43,7 @@ trait JSendResponseTrait
     private function failResponse($json)
     {
         return (new HttpFoundationFactory())
-            ->createResponse(new \NilPortugues\Api\JSend\Http\Message\FailResponse($json));
+            ->createResponse($this->addHeaders(new \NilPortugues\Api\JSend\Http\Message\FailResponse($json)));
     }
 
     /**
@@ -45,7 +54,7 @@ trait JSendResponseTrait
     private function response($json)
     {
         return (new HttpFoundationFactory())
-            ->createResponse(new \NilPortugues\Api\JSend\Http\Message\Response($json));
+            ->createResponse($this->addHeaders(new \NilPortugues\Api\JSend\Http\Message\Response($json)));
     }
 } 
  
