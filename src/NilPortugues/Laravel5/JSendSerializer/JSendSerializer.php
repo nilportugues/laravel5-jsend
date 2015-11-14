@@ -48,6 +48,15 @@ class JSendSerializer extends DeepCopySerializer
             return [self::MAP_TYPE => 'array', self::SCALAR_VALUE => $items];
         }
 
+        if ($value instanceof \Illuminate\Contracts\Pagination\Paginator) {
+            $items = [];
+            foreach ($value->items() as &$v) {
+                $items[] = $this->serializeObject($v);
+            }
+
+            return [self::MAP_TYPE => 'array', self::SCALAR_VALUE => $items];
+        }
+        
         if (is_subclass_of($value, Model::class, true)) {
 
             $stdClass = (object) $value->getAttributes();
