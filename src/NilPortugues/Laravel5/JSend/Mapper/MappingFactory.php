@@ -2,13 +2,12 @@
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 10/16/15
- * Time: 8:59 PM
+ * Time: 8:59 PM.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-namespace NilPortugues\Laravel5\JSendSerializer\Mapper;
+namespace NilPortugues\Laravel5\JSend\Mapper;
 
 use ErrorException;
 use Illuminate\Database\Eloquent\Model;
@@ -17,8 +16,7 @@ use ReflectionClass;
 use ReflectionMethod;
 
 /**
- * Class MappingFactory
- * @package NilPortugues\Laravel5\JsonApiSerializer\Mapper
+ * Class MappingFactory.
  */
 class MappingFactory extends \NilPortugues\Api\Mapping\MappingFactory
 {
@@ -39,7 +37,7 @@ class MappingFactory extends \NilPortugues\Api\Mapping\MappingFactory
             $value = $reflection->newInstanceWithoutConstructor();
 
             if (is_subclass_of($value, Model::class, true)) {
-                $attributes =  array_merge(
+                $attributes = array_merge(
                     Schema::getColumnListing($value->getTable()),
                     self::getRelationshipMethodsAsPropertyName($value, $className, $reflection)
                 );
@@ -48,7 +46,6 @@ class MappingFactory extends \NilPortugues\Api\Mapping\MappingFactory
 
                 return self::$eloquentClasses[$className];
             }
-
         }
 
         return parent::getClassProperties($className);
@@ -65,9 +62,7 @@ class MappingFactory extends \NilPortugues\Api\Mapping\MappingFactory
     {
         $methods = [];
         foreach ($reflection->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
-
-            if (ltrim($method->class, "\\") === ltrim($className, "\\")) {
-
+            if (ltrim($method->class, '\\') === ltrim($className, '\\')) {
                 $name = $method->name;
                 $reflectionMethod = $reflection->getMethod($name);
 
@@ -83,9 +78,9 @@ class MappingFactory extends \NilPortugues\Api\Mapping\MappingFactory
                             if (false !== strpos(get_class($returned), 'Illuminate\Database\Eloquent\Relations')) {
                                 $methods[] = $method->name;
                             }
-
                         }
-                    } catch (ErrorException $e) {}
+                    } catch (ErrorException $e) {
+                    }
                 }
             }
         }

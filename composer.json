@@ -12,15 +12,20 @@
             "role": "Project Lead Developer"
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "NilPortugues\\Laravel5\\JSend\\" : "src/NilPortugues/Laravel5/JSend/"
+        }
+    },
     "require": {
         "nilportugues/jsend": "~1.0",
         "symfony/psr-http-message-bridge": "~0.2",
         "nilportugues/serializer-eloquent": "^1.0"
     },
-    "autoload": {
-        "psr-4": {
-            "NilPortugues\\Laravel5\\JSendSerializer\\" : "src/NilPortugues/Laravel5/JSendSerializer/"
-        }
+    "require-dev": {
+        "laravel/laravel": "5.*",
+        "phpunit/phpunit": "4.*",
+        "fabpot/php-cs-fixer": "^1.10"
     },
     "config": {
         "preferred-install": "dist"

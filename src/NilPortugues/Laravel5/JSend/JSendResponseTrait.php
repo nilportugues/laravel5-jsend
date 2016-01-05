@@ -2,20 +2,20 @@
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 8/18/15
- * Time: 11:19 PM
+ * Time: 11:19 PM.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-namespace NilPortugues\Laravel5\JSendSerializer;
+namespace NilPortugues\Laravel5\JSend;
 
 use Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory;
 
 trait JSendResponseTrait
 {
     /**
-     * @param  \Psr\Http\Message\ResponseInterface $response
+     * @param \Psr\Http\Message\ResponseInterface $response
+     *
      * @return \Psr\Http\Message\ResponseInterface
      */
     protected function addHeaders(\Psr\Http\Message\ResponseInterface $response)
@@ -30,7 +30,7 @@ trait JSendResponseTrait
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    private function errorResponse($message, $code = 500, $data = null)
+    protected function errorResponse($message, $code = 500, $data = null)
     {
         return (new HttpFoundationFactory())
             ->createResponse($this->addHeaders(new \NilPortugues\Api\JSend\Http\Message\ErrorResponse($message, $code, $data)));
@@ -41,7 +41,7 @@ trait JSendResponseTrait
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    private function failResponse($json)
+    protected function failResponse($json)
     {
         return (new HttpFoundationFactory())
             ->createResponse($this->addHeaders(new \NilPortugues\Api\JSend\Http\Message\FailResponse($json)));
@@ -52,7 +52,7 @@ trait JSendResponseTrait
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    private function response($json)
+    protected function response($json)
     {
         return (new HttpFoundationFactory())
             ->createResponse($this->addHeaders(new \NilPortugues\Api\JSend\Http\Message\Response($json)));

@@ -31,7 +31,7 @@ Open up `config/app.php` and add the following line under `providers` array:
 'providers' => [
 
     //...
-    \NilPortugues\Laravel5\JSendSerializer\Laravel5JSendSerializerServiceProvider::class,
+    \NilPortugues\Laravel5\JSend\Laravel5JSendServiceProvider::class,
 ],
 ```
 
@@ -40,7 +40,7 @@ Open up `config/app.php` and add the following line under `providers` array:
 Open up `bootstrap/app.php`and add the following lines before the `return $app;` statement:
 
 ```php
-$app->register(\NilPortugues\Laravel5\JSendSerializer\Laravel5JSendSerializerServiceProvider::class);
+$app->register(\NilPortugues\Laravel5\JSend\Laravel5JSendServiceProvider::class);
 $app->configure('jsend');
 ```
 
@@ -114,8 +114,8 @@ return [
             'postId',
         ],
         'urls' => [
-            'self' => 'get_post',//named route
-            'comments' => 'get_post_comments',//named route
+            'self' => ['name' => 'get_post'], //named route
+            'comments' => ['name' => 'get_post_comments'], //named route
         ],
     ],
     [
@@ -127,7 +127,7 @@ return [
             'postId',
         ],
         'urls' => [
-            'self' => 'get_post',//named route
+            'self' => ['name' => 'get_post'], //named route
         ],
     ],
     [
@@ -139,9 +139,9 @@ return [
             'userId',
         ],
         'urls' => [
-            'self' => 'get_user',//named route
-            'friends' => 'get_user_friends',//named route
-            'comments' => 'get_user_comments',//named route
+            'self' => ['name' => 'get_user'], //named route
+            'friends' => ['name' => 'get_user_friends'], //named route
+            'comments' => ['name' => 'get_user_comments'], //named route
         ],
     ],
     [
@@ -153,9 +153,9 @@ return [
             'userId',
         ],
         'urls' => [
-            'self' => 'get_user',//named route
-            'friends' => 'get_user_friends',//named route
-            'comments' => 'get_user_comments',//named route
+            'self' => ['name' => 'get_user'], //named route
+            'friends' => ['name' => 'get_user_friends'], //named route
+            'comments' => ['name' => 'get_user_comments'], //named route
         ],
     ],
     [
@@ -167,7 +167,7 @@ return [
             'commentId',
         ],
         'urls' => [
-            'self' => 'get_comment',//named route
+            'self' => ['name' => 'get_comment'], //named route
         ],
     ],
     [
@@ -179,7 +179,7 @@ return [
             'commentId',
         ],
         'urls' => [
-            'self' => 'get_comment', //named route
+            'self' => ['name' => get_comment'], //named route
         ],
     ],
 ];
@@ -228,8 +228,8 @@ All of this set up allows you to easily use the `JSendSerializer` service as fol
 namespace App\Http\Controllers;
 
 use Acme\Domain\Dummy\PostRepository;
-use NilPortugues\Laravel5\JSendSerializer\JSendSerializer;
-use NilPortugues\Laravel5\JSendSerializer\JSendResponseTrait;
+use NilPortugues\Laravel5\JSend\JSendSerializer;
+use NilPortugues\Laravel5\JSend\JSendResponseTrait;
 
 
 class PostController extends \Laravel\Lumen\Routing\Controller

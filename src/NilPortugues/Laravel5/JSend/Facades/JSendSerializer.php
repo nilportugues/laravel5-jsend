@@ -8,12 +8,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace NilPortugues\Laravel5\JSendSerializer\Facades;
+namespace NilPortugues\Laravel5\JSend\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
 /**
- * Class JSendSerializer.
+ * Class JSend.
  */
 class JSendSerializer extends Facade
 {
@@ -22,6 +22,6 @@ class JSendSerializer extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return '\NilPortugues\Serializer\Serializer';
+        return '\NilPortugues\Laravel5\JSend\JSendSerializer';
     }
 }
