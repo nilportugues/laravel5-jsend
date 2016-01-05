@@ -7,6 +7,7 @@
 [![License](https://poser.pugx.org/nilportugues/laravel5-jsend/license?)](https://packagist.org/packages/nilportugues/laravel5-jsend) 
 
 
+*Compatible with Laravel 5.0, 5.1 & 5.2*
 
 ## Installation
 
