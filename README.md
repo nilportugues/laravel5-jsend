@@ -5,7 +5,7 @@
 [![Latest Stable Version](https://poser.pugx.org/nilportugues/laravel5-jsend/v/stable?)](https://packagist.org/packages/nilportugues/laravel5-jsend) 
 [![Total Downloads](https://poser.pugx.org/nilportugues/laravel5-jsend/downloads?)](https://packagist.org/packages/nilportugues/laravel5-jsend) 
 [![License](https://poser.pugx.org/nilportugues/laravel5-jsend/license?)](https://packagist.org/packages/nilportugues/laravel5-jsend) 
-
+[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://paypal.me/nilportugues)
 
 *Compatible with Laravel 5.0, 5.1 & 5.2*
 
